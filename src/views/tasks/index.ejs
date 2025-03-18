@@ -1,0 +1,76 @@
+<%- include('../layouts/header', { token: token }) %>
+<div class="container mt-5">
+    <form action="/tasks" method="POST" class="mb-4">
+        <h2>Minhas Tarefas</h2>
+        <div class="form-group">
+            <input type="text" class="form-control" name="title" placeholder="Título da tarefa" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="description" placeholder="Descrição" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Adicionar</button>
+    </form>
+    <ul class="list-group" id="task-list">
+        <% tasks.forEach(task => { %>
+            <li class="list-group-item d-flex justify-content-between align-items-center" data-task-id="<%= task.id %>">
+                <div>
+                    <strong><%= task.title %></strong> - <%= task.description %>
+                    <% if (task.completed) { %>
+                        <span class="badge badge-success">Concluída</span>
+                    <% } else { %>
+                        <span class="badge badge-warning">Pendente</span>
+                    <% } %>
+                </div>
+                <div class="ml-auto">
+                    <button class="btn btn-info btn-sm update-status">
+                        <%= task.completed ? 'Marcar como Pendente' : 'Marcar como Concluída' %>
+                    </button>
+                    <button class="btn btn-danger btn-sm delete-task">Excluir</button>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+<%- include('../layouts/footer') %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.update-status').forEach(button => {
+            button.addEventListener('click', function() {
+                const taskId = this.closest('li').getAttribute('data-task-id');
+                fetch(`/tasks/${taskId}/status`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll('.delete-task').forEach(button => {
+            button.addEventListener('click', function() {
+                const taskId = this.closest('li').getAttribute('data-task-id');
+                fetch(`/tasks/${taskId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        location.reload();
+                    }
+                });
+            });
+        });
+    });
+</script>

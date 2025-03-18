@@ -1,0 +1,48 @@
+### Create a new user
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+    "name": "Pedro",
+    "email": "pedro@example.com",
+    "password": "password123"
+}
+
+### Login user
+
+POST http://localhost:8080/users/login
+Content-Type: application/json
+
+{
+    "email": "pedro@example.com",
+    "password": "123456"
+}
+
+### Create a new task
+POST http://localhost:8080/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMzExNjk2LCJleHAiOjE3NDIzMTUyOTZ9.DHQAka0tRZI5fg-VerUj9AXdJu7x5h3tw0Sjb24GlpY
+Content-Type: application/json
+
+{
+    "title": "New Task",
+    "description": "Task description"
+}
+
+### List all tasks
+GET http://localhost:8080/tasks
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMzExNjk2LCJleHAiOjE3NDIzMTUyOTZ9.DHQAka0tRZI5fg-VerUj9AXdJu7x5h3tw0Sjb24GlpY
+
+### Update a task
+PUT http://localhost:8080/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMzExNjk2LCJleHAiOjE3NDIzMTUyOTZ9.DHQAka0tRZI5fg-VerUj9AXdJu7x5h3tw0Sjb24GlpY
+Content-Type: application/json
+
+{
+    "title": "Updated Task",
+    "description": "Updated description",
+    "completed": true
+}
+
+### Delete a task
+DELETE http://localhost:8080/tasks/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQyMzExNjk2LCJleHAiOjE3NDIzMTUyOTZ9.DHQAka0tRZI5fg-VerUj9AXdJu7x5h3tw0Sjb24GlpY
